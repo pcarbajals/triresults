@@ -1,4 +1,4 @@
-class Address
+class Address < CustomType
 
   attr :city, :state, :location
 
@@ -20,42 +20,7 @@ class Address
     }
   end
 
-  class << self
-
-    def demongoize(object)
-      case object
-      when nil
-        nil
-
-      when Hash
-        Address.new(object)
-
-      when Point
-        object
-
-      else
-        nil
-      end
-    end
-  
-    def evolve(object)
-      self.mongoize(object)
-    end
-
-    def mongoize(object)
-      case object
-      when nil
-        nil
-  
-      when Hash
-        object
-  
-      when Address
-        object.mongoize
-        
-      else
-        nil
-      end
-    end
+  def self.klass
+    Address    
   end
 end

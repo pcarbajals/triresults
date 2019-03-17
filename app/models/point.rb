@@ -1,4 +1,4 @@
-class Point
+class Point < CustomType
 
   attr :longitude, :latitude
 
@@ -19,42 +19,7 @@ class Point
     }
   end
 
-  class << self
-
-    def demongoize(object)
-      case object
-      when nil
-        nil
-
-      when Hash
-        Point.new(object)
-
-      when Point
-        object
-
-      else
-        nil
-      end
-    end
-  
-    def evolve(object)
-      self.mongoize(object)
-    end
-
-    def mongoize(object)
-      case object
-      when nil
-        nil
-  
-      when Hash
-        object
-  
-      when Point
-        object.mongoize
-        
-      else
-        nil
-      end
-    end
+  def self.klass
+    Point
   end
 end
