@@ -8,4 +8,7 @@ class Race
   field :loc,  as: :location, type: Address
   
   embeds_many :events, as: :parent, order: [:order.asc]
+  
+  scope :upcoming, -> { where(:date.gte  => Date.today) }
+  scope :past,     -> { where(:date.lt => Date.today) }
 end
