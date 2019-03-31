@@ -5,6 +5,9 @@ class LegResult
   field :secs, as: :secs, type: Float
   
   embedded_in :entrant
+  embeds_one  :event
+  
+  validates_presence_of :event
 
   after_initialize do |doc|
     calc_ave

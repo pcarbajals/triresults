@@ -11,6 +11,5 @@ class Entrant
 
   store_in collection: :results
   
-  embeds_many :results, class_name: 'LegResult'
-
+  embeds_many :results, class_name: 'LegResult', order: [:'event.o'.asc]
 end
