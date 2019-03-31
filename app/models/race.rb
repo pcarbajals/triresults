@@ -7,6 +7,8 @@ class Race
   field :date, as: :date,     type: Date
   field :loc,  as: :location, type: Address
   
+  has_many :entrants, foreign_key: 'race._id', dependent: :delete, order: [:secs.asc, :bib.asc] 
+  
   embeds_many :events, as: :parent, order: [:order.asc]
   
   scope :upcoming, -> { where(:date.gte  => Date.today) }
