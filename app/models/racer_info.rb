@@ -9,7 +9,7 @@ class RacerInfo
   field :yr,       as: :birth_year, type: Integer
   field :res,      as: :residence,  type: Address
 
-  embedded_in :parent, class_name: 'Racer', polymorphic: true
+  embedded_in :parent, polymorphic: true
   
   validates_presence_of     :first_name, :last_name, :gender, :birth_year
   validates_inclusion_of    :gender, in: %w( M F ) 

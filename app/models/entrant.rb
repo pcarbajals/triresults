@@ -13,7 +13,7 @@ class Entrant
   
   embeds_many :results, class_name: 'LegResult', order: [:'event.o'.asc], after_add: :update_total
   embeds_one  :race,    class_name: 'RaceRef'
-  embeds_one  :racer,   class_name: 'RacerInfo'
+  embeds_one  :racer,   class_name: 'RacerInfo', as: :parent, autobuild: true
 
   def the_race
     race.race
