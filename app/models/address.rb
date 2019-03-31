@@ -1,6 +1,6 @@
 class Address < CustomType
 
-  attr :city, :state, :location
+  attr_accessor :city, :state, :location
 
   def initialize(params = {})
     return nil if params.nil?
