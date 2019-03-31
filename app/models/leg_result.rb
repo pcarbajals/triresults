@@ -14,11 +14,17 @@ class LegResult
   end
 
   def calc_ave
-    #subclasses will calc event-specific ave
+    if event && secs
+      compute_average
+    end
   end
   
   def secs= value
     self[:secs] = value
     calc_ave
+  end
+  
+  def compute_average
+    # this is where subclasses compute their average to be used in calc_ave
   end
 end
