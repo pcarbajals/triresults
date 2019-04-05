@@ -21,6 +21,9 @@ class Entrant
   embeds_one  :race,    class_name: 'RaceRef',   autobuild: true
   embeds_one  :racer,   class_name: 'RacerInfo', autobuild: true, as: :parent
 
+  scope :upcoming, -> { where(:'race.date'.gte => Date.today) }
+  scope :past,     -> { where(:'race.date'.lt  => Date.today) }
+
   delegate :first_name, :first_name=, to: :racer
   delegate :last_name,  :last_name=,  to: :racer
   delegate :gender,     :gender=,     to: :racer, prefix: 'racer'
