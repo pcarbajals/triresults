@@ -74,7 +74,7 @@ class Race
   end
 
   def get_group(racer)
-    if racer&.birth_year && racer.gender
+    if racer.birth_year && racer.gender
       quotient = (date.year - racer.birth_year) / 10
       min_age  = quotient * 10
       max_age  = ((quotient + 1) * 10) - 1

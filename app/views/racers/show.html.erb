@@ -52,9 +52,9 @@
     <tr>
       <td><%= entry.race_name %></td>
       <td><%= entry.race_date %></td>
-      <td><%= entry.overall&.place %></td>
-      <td><%= entry.gender&.place %></td>
-      <td><%= entry.group&.place %></td>
+      <td><%= entry.overall.place unless entry.overall.nil? %></td>
+      <td><%= entry.gender.place  unless entry.gender.nil? %></td>
+      <td><%= entry.group.place   unless entry.group.nil? %></td>
       <td><%= link_to 'Results', race_path(entry.race) %></td>
     </tr>
   <% end %>
