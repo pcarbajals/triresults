@@ -28,9 +28,11 @@ class Race
   end
 
   def self.upcoming_available_to(racer)
-    upcoming_race_ids = racer.races.upcoming.pluck(:race).map { |r| r[:_id] }
-    all_race_ids      = Race.upcoming.map { |r| r[:_id] }
-    self.in(_id: (all_race_ids - upcoming_race_ids))
+    # upcoming_race_ids = racer.races.upcoming.pluck(:race).map { |r| r[:_id] }
+    # all_race_ids      = Race.upcoming.map { |r| r[:_id] }
+    # self.in(_id: (all_race_ids - upcoming_race_ids))
+    upcoming_race_ids = racer.races.upcoming.pluck(:race).map {|race| race[:_id]}
+    self.upcoming.where(:_id => {:$nin => upcoming_race_ids})
   end
 
   # metaprogramming: getters and setters for each event
@@ -86,13 +88,13 @@ class Race
     entrant = Entrant.new
     
     entrant.race = attributes.symbolize_keys.slice(:_id, :n, :date)
-    entrant.racer = racer.info.attributes
+    entrant.racer = racer.info.attributes.symbolize_keys.slice(:racer_id, :fn, :ln, :g, :yr, :res)
     entrant.group = get_group(racer)
     events.each do |event|
       entrant.send("#{event.name}=", event)
     end
 
-    if entrant.validate
+    if entrant.valid?
       entrant.bib = next_bib
       entrant.save!
     end
