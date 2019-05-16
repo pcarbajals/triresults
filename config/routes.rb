@@ -11,6 +11,8 @@ Rails.application.routes.draw do
     get 'races/:race_id/results' => 'races#results'
     get 'races/:race_id/results/:id' => 'races#results_index'
 
+    post 'races' => 'races#create'
+
     get 'racers' => 'racers#index'
     get 'racers/:racer_id' => 'racers#show'
     get 'racers/:racer_id/entries' => 'racers#entries'
