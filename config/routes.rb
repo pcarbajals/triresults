@@ -7,13 +7,13 @@ Rails.application.routes.draw do
 
   namespace :api do
     get 'races' => 'races#index'
-    get 'races/:id' => 'races#show'
-    get 'races/:id/results' => 'races#results'
-    get 'races/:id/results/:id' => 'races#results_index'
+    get 'races/:race_id' => 'races#show'
+    get 'races/:race_id/results' => 'races#results'
+    get 'races/:race_id/results/:id' => 'races#results_index'
 
     get 'racers' => 'racers#index'
-    get 'racers/:id' => 'racers#show'
-    get 'racers/:id/entries' => 'racers#entries'
-    get 'racers/:id/entries/:id' => 'racers#entries_index'
+    get 'racers/:racer_id' => 'racers#show'
+    get 'racers/:racer_id/entries' => 'racers#entries'
+    get 'racers/:racer_id/entries/:id' => 'racers#entries_index'
   end
 end
