@@ -32,6 +32,11 @@ module Api
 
       render json: race
     end
+    
+    def destroy
+      Race.find(params[:race_id]).destroy
+      render nothing: true, status: :no_content
+    end
 
     def results
       if !request.accept || request.accept == '*/*'

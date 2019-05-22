@@ -15,6 +15,8 @@ Rails.application.routes.draw do
 
     put 'races/:race_id' => 'races#update'
 
+    delete 'races/:race_id' => 'races#destroy'
+
     get 'racers'                       => 'racers#index'
     get 'racers/:racer_id'             => 'racers#show'
     get 'racers/:racer_id/entries'     => 'racers#entries'
