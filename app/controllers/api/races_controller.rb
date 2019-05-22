@@ -1,6 +1,6 @@
 module Api
   class RacesController < ApplicationController
-    
+
     def index
       if !request.accept || request.accept == '*/*'
         render plain: "/api/races, offset=[#{params[:offset]}], limit=[#{params[:limit]}]"
@@ -33,7 +33,7 @@ module Api
 
       render json: race
     end
-    
+
     def destroy
       Race.find(params[:race_id]).destroy
       render nothing: true, status: :no_content
@@ -51,7 +51,8 @@ module Api
       if !request.accept || request.accept == '*/*'
         render plain: "/api/races/#{params[:race_id]}/results/#{params[:id]}"
       else
-        #real implementation ...
+        result = Race.find(params[:race_id]).entrants.where(id: params[:id]).first
+        render partial: 'result', object: result
       end
     end
 
