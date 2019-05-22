@@ -1,10 +1,6 @@
 module Api
   class RacesController < ApplicationController
     
-    rescue_from Mongoid::Errors::DocumentNotFound do |exception|
-      render plain: "woops: cannot find race[#{params[:race_id]}]", status: :not_found
-    end
-    
     def index
       if !request.accept || request.accept == '*/*'
         render plain: "/api/races, offset=[#{params[:offset]}], limit=[#{params[:limit]}]"
@@ -17,8 +13,8 @@ module Api
       if !request.accept || request.accept == '*/*'
         render plain: "/api/races/#{params[:race_id]}"
       else
-        race = Race.find(params[:race_id])
-        render json: race
+        render template: 'api/races/show',
+               locals:   { race: Race.find(params[:race_id]) }
       end
     end
 
@@ -58,7 +54,22 @@ module Api
         #real implementation ...
       end
     end
-    
+
+    rescue_from Mongoid::Errors::DocumentNotFound do |exception|
+      if !request.accept || request.accept == '*/*'
+        render plain: "woops: cannot find race[#{params[:race_id]}]", status: :not_found
+      else
+        render status:   :not_found,
+               template: 'api/error_msg',
+               locals:   { msg: "woops: cannot find race[#{params[:race_id]}]" }
+      end
+    end
+
+    rescue_from ActionView::MissingTemplate do |exception|
+      Rails.logger.warn exception
+      render plain: "woops: we do not support that content-type[#{request.accept}]", status: :unsupported_media_type
+    end
+
     private
 
     def race_params
