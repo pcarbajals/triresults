@@ -12,7 +12,8 @@ module Api
       if !request.accept || request.accept == '*/*'
         render plain: "/api/races/#{params[:race_id]}"
       else
-        #real implementation ...
+        race = Race.find(params[:race_id])
+        render json: race
       end
     end
 
@@ -20,8 +21,16 @@ module Api
       if !request.accept || request.accept == '*/*'
         render plain: params[:race][:name], status: :ok
       else
-        #real implementation
+        Race.create(race_params)
+        render plain: params[:race][:name], status: :created
       end
+    end
+
+    def update
+      race = Race.find(params[:race_id])
+      race.update!(race_params)
+
+      render json: race
     end
 
     def results
@@ -38,6 +47,12 @@ module Api
       else
         #real implementation ...
       end
+    end
+    
+    private
+
+    def race_params
+      params.require(:race).permit(:name, :date, :city, :state, :swim_distance, :swim_units, :bike_distance, :bike_units, :run_distance, :run_units)
     end
   end
 end
