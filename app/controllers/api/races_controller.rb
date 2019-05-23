@@ -56,6 +56,20 @@ module Api
       end
     end
 
+    def results_update
+      entrant = Race.find(params[:race_id]).entrants.where(id: params[:id]).first
+      
+      result_params.keys.each do |param|
+        value = entrant.race.race.send("#{param}")
+        entrant.send("#{param}=", value)
+        entrant.send("#{param}_secs=", result_params[param].to_f)
+      end
+      
+      entrant.save
+
+      render nothing: true, status: :ok
+    end
+
     rescue_from Mongoid::Errors::DocumentNotFound do |exception|
       if !request.accept || request.accept == '*/*'
         render plain: "woops: cannot find race[#{params[:race_id]}]", status: :not_found
@@ -75,6 +89,10 @@ module Api
 
     def race_params
       params.require(:race).permit(:name, :date, :city, :state, :swim_distance, :swim_units, :bike_distance, :bike_units, :run_distance, :run_units)
+    end
+
+    def result_params
+      params.require(:result).permit(:swim, :t1, :bike, :t2, :run)
     end
   end
 end
