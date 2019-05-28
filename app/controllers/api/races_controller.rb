@@ -43,7 +43,11 @@ module Api
       if !request.accept || request.accept == '*/*'
         render plain: "/api/races/#{params[:race_id]}/results"
       else
-        #real implementation ...
+        race     = Race.find(params[:race_id])
+        entrants = race.entrants
+
+        render template: 'api/races/results',
+               locals: { entrants: entrants }
       end
     end
 
@@ -58,13 +62,13 @@ module Api
 
     def results_update
       entrant = Race.find(params[:race_id]).entrants.where(id: params[:id]).first
-      
+
       result_params.keys.each do |param|
         value = entrant.race.race.send("#{param}")
         entrant.send("#{param}=", value)
         entrant.send("#{param}_secs=", result_params[param].to_f)
       end
-      
+
       entrant.save
 
       render nothing: true, status: :ok
