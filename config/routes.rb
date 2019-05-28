@@ -6,21 +6,11 @@ Rails.application.routes.draw do
   resources :races
 
   namespace :api do
-    get  'races' => 'races#index'
-    post 'races' => 'races#create'
-
-    delete 'races/:race_id' => 'races#destroy'
-    get    'races/:race_id' => 'races#show'
-    put    'races/:race_id' => 'races#update'
-
-    get 'races/:race_id/results' => 'races#results'
-
-    get   'races/:race_id/results/:id' => 'races#results_index'
-    patch 'races/:race_id/results/:id' => 'races#results_update'
-
-    get 'racers' => 'racers#index'
-    get 'racers/:racer_id' => 'racers#show'
-    get 'racers/:racer_id/entries' => 'racers#entries'
-    get 'racers/:racer_id/entries/:id' => 'racers#entries_index'
+    resources :races, only: [:index, :create, :destroy, :show, :update] do
+      resources :results, only: [:index, :show, :update]
+    end
+    resources :racers, only: [:index, :show] do
+      resources :entries, only: [:index, :show]
+    end
   end
 end

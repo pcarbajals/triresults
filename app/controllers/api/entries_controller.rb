@@ -1,8 +1,8 @@
 module Api
-  class RacersController < ApplicationController
+  class EntriesController < ApplicationController
     def index
       if !request.accept || request.accept == "*/*"
-        render plain: '/api/racers'
+        render plain: "/api/racers/#{params[:racer_id]}/entries"
       else
         #real implementation ...
       end
@@ -10,7 +10,7 @@ module Api
 
     def show
       if !request.accept || request.accept == "*/*"
-        render plain: "/api/racers/#{params[:id]}"
+        render plain: "/api/racers/#{params[:racer_id]}/entries/#{params[:id]}"
       else
         #real implementation ...
       end
