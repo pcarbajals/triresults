@@ -46,8 +46,10 @@ module Api
         race     = Race.find(params[:race_id])
         entrants = race.entrants
 
-        render template: 'api/races/results',
-               locals: { entrants: entrants }
+        if stale? etag: entrants, last_modified: entrants.max(:updated_at)
+          render template: 'api/races/results',
+                 locals:   { entrants: entrants }
+        end
       end
     end
 
